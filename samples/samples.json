@@ -1,0 +1,121 @@
+[
+    {
+        "type": "category",
+        "label": "Samples",
+        "children": [
+            {
+                "type": "sub-category",
+                "label": "Fun and Games",
+                "children": [
+                    {
+                        "type": "menu-item",
+                        "label": "Super Fable Mario",
+                        "fsharpCode": "games/mario.fs",
+                        "htmlCode": "games/mario.html"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Ozmo Game",
+                        "fsharpCode": "games/ozmo.fs",
+                        "htmlCode": "games/ozmo.html"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Pacman",
+                        "fsharpCode": "games/pacman.fs",
+                        "htmlCode": "games/pacman.html"
+                    }
+                ]
+            },
+            {
+                "type": "sub-category",
+                "label": "Visualizations",
+                "children": [
+                    {
+                        "type": "menu-item",
+                        "label": "Basic canvas",
+                        "fsharpCode": "visual/basic-canvas.fs",
+                        "htmlCode": "visual/basic-canvas.html"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Mandelbrot",
+                        "fsharpCode": "visual/mandelbrot.fs",
+                        "htmlCode": "visual/mandelbrot.html"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Ray Tracer",
+                        "fsharpCode": "visual/raytracer.fs",
+                        "htmlCode": "visual/raytracer.html"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Hokusai",
+                        "fsharpCode": "visual/hokusai.fs",
+                        "htmlCode": "visual/hokusai.html"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Color Fountain",
+                        "fsharpCode": "visual/color-fountain.fs",
+                        "htmlCode": "visual/color-fountain.html"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Recharts",
+                        "fsharpCode": "visual/recharts.fs",
+                        "htmlCode": "visual/recharts.html"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "category",
+        "label": "Learn",
+        "children": [
+            {
+                "type": "sub-category",
+                "label": "Tour of F#",
+                "children": [
+                    {
+                        "type": "menu-item",
+                        "label": "Functions",
+                        "fsharpCode": "tour/functions.fs"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Primitive Types",
+                        "fsharpCode": "tour/primitives.fs"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Collections",
+                        "fsharpCode": "tour/collections.fs"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Tuples and Records",
+                        "fsharpCode": "tour/records.fs"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Union Types",
+                        "fsharpCode": "tour/unions.fs"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Units of Measure",
+                        "fsharpCode": "tour/units.fs"
+                    },
+                    {
+                        "type": "menu-item",
+                        "label": "Defining Classes",
+                        "fsharpCode": "tour/classes.fs"
+                    }
+                ]
+            }
+        ]
+    }
+]
