@@ -258,7 +258,7 @@ export function isRecord(t) {
     return t instanceof TypeInfo ? t.fields != null : t instanceof Record;
 }
 export function isTuple(t) {
-    return t.fullname.startsWith("System.Tuple");
+    return t.fullname.startsWith("System.Tuple") && !isArray(t);
 }
 // In .NET this is false for delegates
 export function isFunction(t) {
