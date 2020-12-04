@@ -174,6 +174,17 @@ export function identityHash(x) {
         return physicalHash(x);
     }
 }
+export function dateHash(x) {
+    return x.getTime();
+}
+export function arrayHash(x) {
+    const len = x.length;
+    const hashes = new Array(len);
+    for (let i = 0; i < len; i++) {
+        hashes[i] = structuralHash(x[i]);
+    }
+    return combineHashCodes(hashes);
+}
 export function structuralHash(x) {
     if (x == null) {
         return 0;
@@ -190,30 +201,31 @@ export function structuralHash(x) {
                 return x.GetHashCode();
             }
             else if (isArrayLike(x)) {
-                const len = x.length;
-                const hashes = new Array(len);
-                for (let i = 0; i < len; i++) {
-                    hashes[i] = structuralHash(x[i]);
-                }
-                return combineHashCodes(hashes);
+                return arrayHash(x);
             }
             else if (x instanceof Date) {
-                return x.getTime();
+                return dateHash(x);
             }
             else if (Object.getPrototypeOf(x).constructor === Object) {
-                // TODO: check call-stack to prevernt cyclic objects?
-                const hashes = Object.values(self).map((v) => structuralHash(v));
+                // TODO: check call-stack to prevent cyclic objects?
+                const hashes = Object.values(x).map((v) => structuralHash(v));
                 return combineHashCodes(hashes);
             }
             else {
-                return stringHash(String(x));
+                // Classes don't implement GetHashCode by default, but must use identity hashing
+                return numberHash(ObjectRef.id(x));
+                // return stringHash(String(x));
             }
         }
     }
 }
-export function hashSafe(x) {
-    var _a;
-    return (_a = x === null || x === void 0 ? void 0 : x.GetHashCode()) !== null && _a !== void 0 ? _a : 0;
+// Intended for custom numeric types, like long or decimal
+export function fastStructuralHash(x) {
+    return stringHash(String(x));
+}
+// Intended for declared types that may or may not implement GetHashCode
+export function safeHash(x) {
+    return x == null ? 0 : isHashable(x) ? x.GetHashCode() : numberHash(ObjectRef.id(x));
 }
 export function equalArraysWith(x, y, eq) {
     if (x == null) {

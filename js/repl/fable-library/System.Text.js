@@ -97,12 +97,11 @@ export function StringBuilder__get_Length(x) {
     return sumBy((str) => str.length, x.buf, {
         GetZero: () => 0,
         Add: (x_1, y) => (x_1 + y),
-    }) | 0;
+    });
 }
 
 export function StringBuilder__ToString_Z37302880(x, firstIndex, length) {
-    const str = toString(x);
-    return substring(str, firstIndex, length);
+    return substring(toString(x), firstIndex, length);
 }
 
 export function StringBuilder__Clear(x) {

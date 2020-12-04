@@ -4,7 +4,7 @@ import { toString, List, Record } from "./Types.js";
 import { singleton as singleton_1, collect, empty as empty_1, delay, fold as fold_2, reduce, iterate as iterate_1, toIterator, map as map_1, getEnumerator } from "./Seq.js";
 import { fold as fold_1 } from "./Array.js";
 import { join } from "./String.js";
-import { structuralHash, partialApply } from "./Util.js";
+import { structuralHash } from "./Util.js";
 import { HashSet__Add_2B595, HashSet_$ctor_Z6150332D } from "./MutableSet.js";
 
 export class SetTreeLeaf$1 {
@@ -105,12 +105,10 @@ export function SetTreeModule_mk(l, k, r) {
     }
     const m = ((hl < hr) ? hr : hl) | 0;
     if (m === 0) {
-        const arg0 = SetTreeLeaf$1_$ctor_2B595(k);
-        return arg0;
+        return SetTreeLeaf$1_$ctor_2B595(k);
     }
     else {
-        const arg0_1 = SetTreeNode$1_$ctor_Z6E7BE5F7(k, l, r, m + 1);
-        return arg0_1;
+        return SetTreeNode$1_$ctor_Z6E7BE5F7(k, l, r, m + 1);
     }
 }
 
@@ -197,21 +195,18 @@ export function SetTreeModule_add(comparer, k, t) {
         else {
             const c_1 = comparer.Compare(k, SetTreeLeaf$1__get_Key(t2)) | 0;
             if (c_1 < 0) {
-                const arg0_1 = SetTreeNode$1_$ctor_Z6E7BE5F7(k, SetTreeModule_empty(), t, 2);
-                return arg0_1;
+                return SetTreeNode$1_$ctor_Z6E7BE5F7(k, SetTreeModule_empty(), t, 2);
             }
             else if (c_1 === 0) {
                 return t;
             }
             else {
-                const arg0_2 = SetTreeNode$1_$ctor_Z6E7BE5F7(k, t, SetTreeModule_empty(), 2);
-                return arg0_2;
+                return SetTreeNode$1_$ctor_Z6E7BE5F7(k, t, SetTreeModule_empty(), 2);
             }
         }
     }
     else {
-        const arg0 = SetTreeLeaf$1_$ctor_2B595(k);
-        return arg0;
+        return SetTreeLeaf$1_$ctor_2B595(k);
     }
 }
 
@@ -285,11 +280,10 @@ export function SetTreeModule_split(comparer, pivot, t) {
 }
 
 export function SetTreeModule_spliceOutSuccessor(t) {
-    let t_1;
     if (t != null) {
         const t2 = t;
         if (t2 instanceof SetTreeNode$1) {
-            if (t_1 = SetTreeNode$1__get_Left(t2), t_1 == null) {
+            if (SetTreeNode$1__get_Left(t2) == null) {
                 return [SetTreeLeaf$1__get_Key(t2), SetTreeNode$1__get_Right(t2)];
             }
             else {
@@ -307,7 +301,6 @@ export function SetTreeModule_spliceOutSuccessor(t) {
 }
 
 export function SetTreeModule_remove(comparer, k, t) {
-    let t_1, t_2;
     if (t != null) {
         const t2 = t;
         const c = comparer.Compare(k, SetTreeLeaf$1__get_Key(t2)) | 0;
@@ -316,10 +309,10 @@ export function SetTreeModule_remove(comparer, k, t) {
                 return SetTreeModule_rebalance(SetTreeModule_remove(comparer, k, SetTreeNode$1__get_Left(t2)), SetTreeLeaf$1__get_Key(t2), SetTreeNode$1__get_Right(t2));
             }
             else if (c === 0) {
-                if (t_1 = SetTreeNode$1__get_Left(t2), t_1 == null) {
+                if (SetTreeNode$1__get_Left(t2) == null) {
                     return SetTreeNode$1__get_Right(t2);
                 }
-                else if (t_2 = SetTreeNode$1__get_Right(t2), t_2 == null) {
+                else if (SetTreeNode$1__get_Right(t2) == null) {
                     return SetTreeNode$1__get_Left(t2);
                 }
                 else {
@@ -433,10 +426,8 @@ export function SetTreeModule_foldOpt(f_mut, x_mut, t_mut) {
         if (t != null) {
             const t2 = t;
             if (t2 instanceof SetTreeNode$1) {
-                const x_1 = SetTreeModule_foldOpt(f, x, SetTreeNode$1__get_Left(t2));
-                const x_2 = f(x_1, SetTreeLeaf$1__get_Key(t2));
                 f_mut = f;
-                x_mut = x_2;
+                x_mut = f(SetTreeModule_foldOpt(f, x, SetTreeNode$1__get_Left(t2)), SetTreeLeaf$1__get_Key(t2));
                 t_mut = SetTreeNode$1__get_Right(t2);
                 continue SetTreeModule_foldOpt;
             }
@@ -667,23 +658,17 @@ export function SetTreeModule_partitionAux(comparer_mut, f_mut, t_mut, acc_0_mut
         if (t != null) {
             const t2 = t;
             if (t2 instanceof SetTreeNode$1) {
-                let acc_2;
-                const t_1 = SetTreeNode$1__get_Right(t2);
-                acc_2 = SetTreeModule_partitionAux(comparer, f, t_1, acc[0], acc[1]);
-                let acc_3;
-                const k = SetTreeLeaf$1__get_Key(t2);
-                acc_3 = SetTreeModule_partition1(comparer, f, k, acc_2[0], acc_2[1]);
-                const t_2 = SetTreeNode$1__get_Left(t2);
+                const acc_2 = SetTreeModule_partitionAux(comparer, f, SetTreeNode$1__get_Right(t2), acc[0], acc[1]);
+                const acc_3 = SetTreeModule_partition1(comparer, f, SetTreeLeaf$1__get_Key(t2), acc_2[0], acc_2[1]);
                 comparer_mut = comparer;
                 f_mut = f;
-                t_mut = t_2;
+                t_mut = SetTreeNode$1__get_Left(t2);
                 acc_0_mut = acc_3[0];
                 acc_1_mut = acc_3[1];
                 continue SetTreeModule_partitionAux;
             }
             else {
-                const k_1 = SetTreeLeaf$1__get_Key(t2);
-                return SetTreeModule_partition1(comparer, f, k_1, acc[0], acc[1]);
+                return SetTreeModule_partition1(comparer, f, SetTreeLeaf$1__get_Key(t2), acc[0], acc[1]);
             }
         }
         else {
@@ -777,8 +762,7 @@ export function SetTreeModule_minimumElement(s) {
         throw (new Error("Set contains no elements"));
     }
     else {
-        const k = value_1(matchValue);
-        return k;
+        return value_1(matchValue);
     }
 }
 
@@ -788,8 +772,7 @@ export function SetTreeModule_maximumElement(s) {
         throw (new Error("Set contains no elements"));
     }
     else {
-        const k = value_1(matchValue);
-        return k;
+        return value_1(matchValue);
     }
 }
 
@@ -806,7 +789,6 @@ export function SetTreeModule_SetIterator$1$reflection(gen0) {
 }
 
 export function SetTreeModule_collapseLHS(stack_mut) {
-    let arg0;
     SetTreeModule_collapseLHS:
     while (true) {
         const stack = stack_mut;
@@ -816,7 +798,7 @@ export function SetTreeModule_collapseLHS(stack_mut) {
             if (x != null) {
                 const x2 = x;
                 if (x2 instanceof SetTreeNode$1) {
-                    stack_mut = (new List(SetTreeNode$1__get_Left(x2), new List((arg0 = SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2)), (arg0)), new List(SetTreeNode$1__get_Right(x2), rest))));
+                    stack_mut = (new List(SetTreeNode$1__get_Left(x2), new List(SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2)), new List(SetTreeNode$1__get_Right(x2), rest))));
                     continue SetTreeModule_collapseLHS;
                 }
                 else {
@@ -915,7 +897,6 @@ export function SetTreeModule_mkIEnumerator(s) {
 }
 
 export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
-    let t, t_1, arg0_8, arg0_9, arg0_10, arg0_11, arg0_12, arg0_13, arg0_14, arg0_15, t_2, arg0_16, arg0_17, arg0_18, arg0_19, arg0, arg0_1, arg0_2, arg0_3, arg0_4, arg0_5, arg0_6, arg0_7;
     SetTreeModule_compareStacks:
     while (true) {
         const comparer = comparer_mut, l1 = l1_mut, l2 = l2_mut;
@@ -927,9 +908,9 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                         const x1_3 = matchValue[0].head;
                         const x2_3 = matchValue[1].head;
                         if (x1_3 instanceof SetTreeNode$1) {
-                            if (t = SetTreeNode$1__get_Left(x1_3), t == null) {
+                            if (SetTreeNode$1__get_Left(x1_3) == null) {
                                 if (x2_3 instanceof SetTreeNode$1) {
-                                    if (t_1 = SetTreeNode$1__get_Left(x2_3), t_1 == null) {
+                                    if (SetTreeNode$1__get_Left(x2_3) == null) {
                                         const c = comparer.Compare(SetTreeLeaf$1__get_Key(x1_3), SetTreeLeaf$1__get_Key(x2_3)) | 0;
                                         if (c !== 0) {
                                             return c | 0;
@@ -981,13 +962,13 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                                             case 0: {
                                                 if (x1_4 instanceof SetTreeNode$1) {
                                                     comparer_mut = comparer;
-                                                    l1_mut = (new List(SetTreeNode$1__get_Left(x1_4), new List((arg0_8 = SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x1_4), SetTreeModule_empty(), SetTreeNode$1__get_Right(x1_4), 0), (arg0_8)), t1_6)));
+                                                    l1_mut = (new List(SetTreeNode$1__get_Left(x1_4), new List(SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x1_4), SetTreeModule_empty(), SetTreeNode$1__get_Right(x1_4), 0), t1_6)));
                                                     l2_mut = l2;
                                                     continue SetTreeModule_compareStacks;
                                                 }
                                                 else {
                                                     comparer_mut = comparer;
-                                                    l1_mut = (new List(SetTreeModule_empty(), new List((arg0_9 = SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x1_4)), (arg0_9)), t1_6)));
+                                                    l1_mut = (new List(SetTreeModule_empty(), new List(SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x1_4)), t1_6)));
                                                     l2_mut = l2;
                                                     continue SetTreeModule_compareStacks;
                                                 }
@@ -996,13 +977,13 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                                                 if (x2_4 instanceof SetTreeNode$1) {
                                                     comparer_mut = comparer;
                                                     l1_mut = l1;
-                                                    l2_mut = (new List(SetTreeNode$1__get_Left(x2_4), new List((arg0_10 = SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x2_4), SetTreeModule_empty(), SetTreeNode$1__get_Right(x2_4), 0), (arg0_10)), t2_6)));
+                                                    l2_mut = (new List(SetTreeNode$1__get_Left(x2_4), new List(SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x2_4), SetTreeModule_empty(), SetTreeNode$1__get_Right(x2_4), 0), t2_6)));
                                                     continue SetTreeModule_compareStacks;
                                                 }
                                                 else {
                                                     comparer_mut = comparer;
                                                     l1_mut = l1;
-                                                    l2_mut = (new List(SetTreeModule_empty(), new List((arg0_11 = SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2_4)), (arg0_11)), t2_6)));
+                                                    l2_mut = (new List(SetTreeModule_empty(), new List(SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2_4)), t2_6)));
                                                     continue SetTreeModule_compareStacks;
                                                 }
                                             }
@@ -1065,13 +1046,13 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                                     case 0: {
                                         if (x1_5 instanceof SetTreeNode$1) {
                                             comparer_mut = comparer;
-                                            l1_mut = (new List(SetTreeNode$1__get_Left(x1_5), new List((arg0_12 = SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x1_5), SetTreeModule_empty(), SetTreeNode$1__get_Right(x1_5), 0), (arg0_12)), t1_7)));
+                                            l1_mut = (new List(SetTreeNode$1__get_Left(x1_5), new List(SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x1_5), SetTreeModule_empty(), SetTreeNode$1__get_Right(x1_5), 0), t1_7)));
                                             l2_mut = l2;
                                             continue SetTreeModule_compareStacks;
                                         }
                                         else {
                                             comparer_mut = comparer;
-                                            l1_mut = (new List(SetTreeModule_empty(), new List((arg0_13 = SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x1_5)), (arg0_13)), t1_7)));
+                                            l1_mut = (new List(SetTreeModule_empty(), new List(SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x1_5)), t1_7)));
                                             l2_mut = l2;
                                             continue SetTreeModule_compareStacks;
                                         }
@@ -1080,13 +1061,13 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                                         if (x2_5 instanceof SetTreeNode$1) {
                                             comparer_mut = comparer;
                                             l1_mut = l1;
-                                            l2_mut = (new List(SetTreeNode$1__get_Left(x2_5), new List((arg0_14 = SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x2_5), SetTreeModule_empty(), SetTreeNode$1__get_Right(x2_5), 0), (arg0_14)), t2_7)));
+                                            l2_mut = (new List(SetTreeNode$1__get_Left(x2_5), new List(SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x2_5), SetTreeModule_empty(), SetTreeNode$1__get_Right(x2_5), 0), t2_7)));
                                             continue SetTreeModule_compareStacks;
                                         }
                                         else {
                                             comparer_mut = comparer;
                                             l1_mut = l1;
-                                            l2_mut = (new List(SetTreeModule_empty(), new List((arg0_15 = SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2_5)), (arg0_15)), t2_7)));
+                                            l2_mut = (new List(SetTreeModule_empty(), new List(SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2_5)), t2_7)));
                                             continue SetTreeModule_compareStacks;
                                         }
                                     }
@@ -1097,7 +1078,7 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                             }
                         }
                         else if (x2_3 instanceof SetTreeNode$1) {
-                            if (t_2 = SetTreeNode$1__get_Left(x2_3), t_2 == null) {
+                            if (SetTreeNode$1__get_Left(x2_3) == null) {
                                 const c_2 = comparer.Compare(SetTreeLeaf$1__get_Key(x1_3), SetTreeLeaf$1__get_Key(x2_3)) | 0;
                                 if (c_2 !== 0) {
                                     return c_2 | 0;
@@ -1149,13 +1130,13 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                                     case 0: {
                                         if (x1_6 instanceof SetTreeNode$1) {
                                             comparer_mut = comparer;
-                                            l1_mut = (new List(SetTreeNode$1__get_Left(x1_6), new List((arg0_16 = SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x1_6), SetTreeModule_empty(), SetTreeNode$1__get_Right(x1_6), 0), (arg0_16)), t1_8)));
+                                            l1_mut = (new List(SetTreeNode$1__get_Left(x1_6), new List(SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x1_6), SetTreeModule_empty(), SetTreeNode$1__get_Right(x1_6), 0), t1_8)));
                                             l2_mut = l2;
                                             continue SetTreeModule_compareStacks;
                                         }
                                         else {
                                             comparer_mut = comparer;
-                                            l1_mut = (new List(SetTreeModule_empty(), new List((arg0_17 = SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x1_6)), (arg0_17)), t1_8)));
+                                            l1_mut = (new List(SetTreeModule_empty(), new List(SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x1_6)), t1_8)));
                                             l2_mut = l2;
                                             continue SetTreeModule_compareStacks;
                                         }
@@ -1164,13 +1145,13 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                                         if (x2_6 instanceof SetTreeNode$1) {
                                             comparer_mut = comparer;
                                             l1_mut = l1;
-                                            l2_mut = (new List(SetTreeNode$1__get_Left(x2_6), new List((arg0_18 = SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x2_6), SetTreeModule_empty(), SetTreeNode$1__get_Right(x2_6), 0), (arg0_18)), t2_8)));
+                                            l2_mut = (new List(SetTreeNode$1__get_Left(x2_6), new List(SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x2_6), SetTreeModule_empty(), SetTreeNode$1__get_Right(x2_6), 0), t2_8)));
                                             continue SetTreeModule_compareStacks;
                                         }
                                         else {
                                             comparer_mut = comparer;
                                             l1_mut = l1;
-                                            l2_mut = (new List(SetTreeModule_empty(), new List((arg0_19 = SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2_6)), (arg0_19)), t2_8)));
+                                            l2_mut = (new List(SetTreeModule_empty(), new List(SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2_6)), t2_8)));
                                             continue SetTreeModule_compareStacks;
                                         }
                                     }
@@ -1234,13 +1215,13 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                             case 0: {
                                 if (x1 instanceof SetTreeNode$1) {
                                     comparer_mut = comparer;
-                                    l1_mut = (new List(SetTreeNode$1__get_Left(x1), new List((arg0 = SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x1), SetTreeModule_empty(), SetTreeNode$1__get_Right(x1), 0), (arg0)), t1_2)));
+                                    l1_mut = (new List(SetTreeNode$1__get_Left(x1), new List(SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x1), SetTreeModule_empty(), SetTreeNode$1__get_Right(x1), 0), t1_2)));
                                     l2_mut = l2;
                                     continue SetTreeModule_compareStacks;
                                 }
                                 else {
                                     comparer_mut = comparer;
-                                    l1_mut = (new List(SetTreeModule_empty(), new List((arg0_1 = SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x1)), (arg0_1)), t1_2)));
+                                    l1_mut = (new List(SetTreeModule_empty(), new List(SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x1)), t1_2)));
                                     l2_mut = l2;
                                     continue SetTreeModule_compareStacks;
                                 }
@@ -1249,13 +1230,13 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                                 if (x2_1 instanceof SetTreeNode$1) {
                                     comparer_mut = comparer;
                                     l1_mut = l1;
-                                    l2_mut = (new List(SetTreeNode$1__get_Left(x2_1), new List((arg0_2 = SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x2_1), SetTreeModule_empty(), SetTreeNode$1__get_Right(x2_1), 0), (arg0_2)), t2_2)));
+                                    l2_mut = (new List(SetTreeNode$1__get_Left(x2_1), new List(SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x2_1), SetTreeModule_empty(), SetTreeNode$1__get_Right(x2_1), 0), t2_2)));
                                     continue SetTreeModule_compareStacks;
                                 }
                                 else {
                                     comparer_mut = comparer;
                                     l1_mut = l1;
-                                    l2_mut = (new List(SetTreeModule_empty(), new List((arg0_3 = SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2_1)), (arg0_3)), t2_2)));
+                                    l2_mut = (new List(SetTreeModule_empty(), new List(SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2_1)), t2_2)));
                                     continue SetTreeModule_compareStacks;
                                 }
                             }
@@ -1306,13 +1287,13 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                         case 0: {
                             if (x1_2 instanceof SetTreeNode$1) {
                                 comparer_mut = comparer;
-                                l1_mut = (new List(SetTreeNode$1__get_Left(x1_2), new List((arg0_4 = SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x1_2), SetTreeModule_empty(), SetTreeNode$1__get_Right(x1_2), 0), (arg0_4)), t1_4)));
+                                l1_mut = (new List(SetTreeNode$1__get_Left(x1_2), new List(SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x1_2), SetTreeModule_empty(), SetTreeNode$1__get_Right(x1_2), 0), t1_4)));
                                 l2_mut = l2;
                                 continue SetTreeModule_compareStacks;
                             }
                             else {
                                 comparer_mut = comparer;
-                                l1_mut = (new List(SetTreeModule_empty(), new List((arg0_5 = SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x1_2)), (arg0_5)), t1_4)));
+                                l1_mut = (new List(SetTreeModule_empty(), new List(SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x1_2)), t1_4)));
                                 l2_mut = l2;
                                 continue SetTreeModule_compareStacks;
                             }
@@ -1321,13 +1302,13 @@ export function SetTreeModule_compareStacks(comparer_mut, l1_mut, l2_mut) {
                             if (x2_2 instanceof SetTreeNode$1) {
                                 comparer_mut = comparer;
                                 l1_mut = l1;
-                                l2_mut = (new List(SetTreeNode$1__get_Left(x2_2), new List((arg0_6 = SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x2_2), SetTreeModule_empty(), SetTreeNode$1__get_Right(x2_2), 0), (arg0_6)), t2_4)));
+                                l2_mut = (new List(SetTreeNode$1__get_Left(x2_2), new List(SetTreeNode$1_$ctor_Z6E7BE5F7(SetTreeLeaf$1__get_Key(x2_2), SetTreeModule_empty(), SetTreeNode$1__get_Right(x2_2), 0), t2_4)));
                                 continue SetTreeModule_compareStacks;
                             }
                             else {
                                 comparer_mut = comparer;
                                 l1_mut = l1;
-                                l2_mut = (new List(SetTreeModule_empty(), new List((arg0_7 = SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2_2)), (arg0_7)), t2_4)));
+                                l2_mut = (new List(SetTreeModule_empty(), new List(SetTreeLeaf$1_$ctor_2B595(SetTreeLeaf$1__get_Key(x2_2)), t2_4)));
                                 continue SetTreeModule_compareStacks;
                             }
                         }
@@ -1464,14 +1445,10 @@ export class FSharpSet {
     }
     toString() {
         const this$ = this;
-        let str;
-        let strings;
-        strings = map_1((x) => {
+        return ("set [" + join("; ", map_1((x) => {
             let copyOfStruct = x;
             return toString(copyOfStruct);
-        }, this$);
-        str = join("; ", strings);
-        return ("set [" + str) + "]";
+        }, this$))) + "]";
     }
     get [Symbol.toStringTag]() {
         return "FSharpSet";
@@ -1556,9 +1533,7 @@ export class FSharpSet {
     forEach(f, thisArg) {
         const s = this;
         iterate_1((x) => {
-            const clo1 = partialApply(2, f, [x]);
-            const clo2 = clo1(x);
-            clo2(s);
+            f(x, x, s);
         }, s);
     }
 }
@@ -1609,13 +1584,11 @@ export function FSharpSet__Fold(s, f, z) {
 }
 
 export function FSharpSet__get_IsEmpty(s) {
-    const t = FSharpSet__get_Tree(s);
-    return t == null;
+    return FSharpSet__get_Tree(s) == null;
 }
 
 export function FSharpSet__Partition(s, f) {
-    let t;
-    if (t = FSharpSet__get_Tree(s), t == null) {
+    if (FSharpSet__get_Tree(s) == null) {
         return [s, s];
     }
     else {
@@ -1625,8 +1598,7 @@ export function FSharpSet__Partition(s, f) {
 }
 
 export function FSharpSet__Filter(s, f) {
-    let t;
-    if (t = FSharpSet__get_Tree(s), t == null) {
+    if (FSharpSet__get_Tree(s) == null) {
         return s;
     }
     else {
@@ -1647,11 +1619,10 @@ export function FSharpSet__ForAll(s, f) {
 }
 
 export function FSharpSet_op_Subtraction(set1, set2) {
-    let t, t_1;
-    if (t = FSharpSet__get_Tree(set1), t == null) {
+    if (FSharpSet__get_Tree(set1) == null) {
         return set1;
     }
-    else if (t_1 = FSharpSet__get_Tree(set2), t_1 == null) {
+    else if (FSharpSet__get_Tree(set2) == null) {
         return set1;
     }
     else {
@@ -1660,11 +1631,10 @@ export function FSharpSet_op_Subtraction(set1, set2) {
 }
 
 export function FSharpSet_op_Addition(set1, set2) {
-    let t, t_1;
-    if (t = FSharpSet__get_Tree(set2), t == null) {
+    if (FSharpSet__get_Tree(set2) == null) {
         return set1;
     }
-    else if (t_1 = FSharpSet__get_Tree(set1), t_1 == null) {
+    else if (FSharpSet__get_Tree(set1) == null) {
         return set2;
     }
     else {
@@ -1673,11 +1643,10 @@ export function FSharpSet_op_Addition(set1, set2) {
 }
 
 export function FSharpSet_Intersection(a, b) {
-    let t, t_1;
-    if (t = FSharpSet__get_Tree(b), t == null) {
+    if (FSharpSet__get_Tree(b) == null) {
         return b;
     }
-    else if (t_1 = FSharpSet__get_Tree(a), t_1 == null) {
+    else if (FSharpSet__get_Tree(a) == null) {
         return a;
     }
     else {
@@ -1739,9 +1708,7 @@ export function FSharpSet__ComputeHashCode(this$) {
     try {
         while (enumerator["System.Collections.IEnumerator.MoveNext"]()) {
             const x_1 = enumerator["System.Collections.Generic.IEnumerator`1.get_Current"]();
-            const x = res | 0;
-            const y = structuralHash(x_1) | 0;
-            res = (((x << 1) + y) + 631);
+            res = (((res << 1) + structuralHash(x_1)) + 631);
         }
     }
     finally {
@@ -1879,8 +1846,7 @@ export function maxElement(set$) {
 }
 
 export function createMutable(source, comparer) {
-    const set$ = HashSet_$ctor_Z6150332D(source, comparer);
-    return set$;
+    return HashSet_$ctor_Z6150332D(source, comparer);
 }
 
 export function distinct(xs, comparer) {
@@ -1903,8 +1869,7 @@ export function unionWith(s1, s2) {
 
 export function intersectWith(s1, s2, comparer) {
     const s2_1 = ofSeq(s2, comparer);
-    const inputSequence = s1.keys();
-    const enumerator = getEnumerator(inputSequence);
+    const enumerator = getEnumerator(s1.keys());
     try {
         while (enumerator["System.Collections.IEnumerator.MoveNext"]()) {
             const x = enumerator["System.Collections.Generic.IEnumerator`1.get_Current"]();
@@ -1923,8 +1888,7 @@ export function exceptWith(s1, s2) {
     const enumerator = getEnumerator(s2);
     try {
         while (enumerator["System.Collections.IEnumerator.MoveNext"]()) {
-            const x = enumerator["System.Collections.Generic.IEnumerator`1.get_Current"]();
-            const value = s1.delete(x);
+            const value = s1.delete(enumerator["System.Collections.Generic.IEnumerator`1.get_Current"]());
             void value;
         }
     }

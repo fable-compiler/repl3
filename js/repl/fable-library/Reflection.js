@@ -276,6 +276,9 @@ export function getUnionFields(v, t) {
 export function getUnionCaseFields(uci) {
     return uci.fields == null ? [] : uci.fields;
 }
+// This is used as replacement of `FSharpValue.GetRecordFields`
+// For `FSharpTypes.GetRecordFields` see `getRecordElements`
+// Object.keys returns keys in the order they were added to the object
 export function getRecordFields(v) {
     return Object.keys(v).map((k) => v[k]);
 }

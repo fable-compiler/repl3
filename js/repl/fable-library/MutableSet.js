@@ -1,5 +1,4 @@
 import { sumBy, iterate, map, iterateIndexed, toIterator, concat, getEnumerator } from "./Seq.js";
-import { partialApply } from "./Util.js";
 import { FSharpRef } from "./Types.js";
 import { class_type } from "./Reflection.js";
 import { getItemFromDict, tryGetValue } from "./MapUtil.js";
@@ -15,8 +14,7 @@ export class HashSet {
         const enumerator = getEnumerator(items);
         try {
             while (enumerator["System.Collections.IEnumerator.MoveNext"]()) {
-                const item = enumerator["System.Collections.Generic.IEnumerator`1.get_Current"]();
-                const value = HashSet__Add_2B595(this$.contents, item);
+                const value = HashSet__Add_2B595(this$.contents, enumerator["System.Collections.Generic.IEnumerator`1.get_Current"]());
                 void value;
             }
         }
@@ -33,8 +31,7 @@ export class HashSet {
     }
     GetEnumerator() {
         const this$ = this;
-        const elems = concat(this$.hashMap.values());
-        return getEnumerator(elems);
+        return getEnumerator(concat(this$.hashMap.values()));
     }
     [Symbol.iterator]() {
         return toIterator(this.GetEnumerator());
@@ -106,9 +103,7 @@ export class HashSet {
     forEach(f, thisArg) {
         const this$ = this;
         iterate((x) => {
-            const clo1 = partialApply(2, f, [x]);
-            const clo2 = clo1(x);
-            clo2(this$);
+            f(x, x, this$);
         }, this$);
     }
 }
@@ -169,11 +164,10 @@ export function HashSet__Clear(this$) {
 }
 
 export function HashSet__get_Count(this$) {
-    const source = this$.hashMap.values();
-    return sumBy((pairs) => pairs.length, source, {
+    return sumBy((pairs) => pairs.length, this$.hashMap.values(), {
         GetZero: () => 0,
         Add: (x, y) => (x + y),
-    }) | 0;
+    });
 }
 
 export function HashSet__Add_2B595(this$, k) {

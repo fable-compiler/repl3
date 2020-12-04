@@ -199,16 +199,14 @@ export function concat(arrays, cons) {
 }
 
 export function collect(mapping, array, cons) {
-    const mapped = map(mapping, array, null);
-    return concat(mapped, cons);
+    return concat(map(mapping, array, null), cons);
 }
 
 export function countBy(projection, array, eq) {
     const dict = new Dictionary([], eq);
     const keys = [];
     for (let idx = 0; idx <= (array.length - 1); idx++) {
-        const value = array[idx];
-        const key = projection(value);
+        const key = projection(array[idx]);
         let matchValue;
         let outArg = 0;
         matchValue = [tryGetValue(dict, key, new FSharpRef(() => outArg, (v) => {
@@ -223,16 +221,12 @@ export function countBy(projection, array, eq) {
             void value_1;
         }
     }
-    const result = map((key_1) => [key_1, getItemFromDict(dict, key_1)], keys, null);
-    return result;
+    return map((key_1) => [key_1, getItemFromDict(dict, key_1)], keys, null);
 }
 
 export function distinctBy(projection, array, eq) {
     const hashSet = new HashSet([], eq);
-    return filter((arg) => {
-        const arg00 = projection(arg);
-        return addToSet(arg00, hashSet);
-    }, array);
+    return filter((arg) => addToSet(projection(arg), hashSet), array);
 }
 
 export function distinct(array, eq) {
@@ -294,8 +288,7 @@ export function groupBy(projection, array, eq) {
             void value;
         }
     }
-    const result = map((key_1) => [key_1, Array.from(getItemFromDict(dict, key_1))], keys, null);
-    return result;
+    return map((key_1) => [key_1, Array.from(getItemFromDict(dict, key_1))], keys, null);
 }
 
 export function empty(cons) {
@@ -502,7 +495,7 @@ export function partition(f, source, cons) {
             iFalse = (iFalse + 1);
         }
     }
-    return [(truncate(iTrue, res1)), (truncate(iFalse, res2))];
+    return [truncate(iTrue, res1), truncate(iFalse, res2)];
 }
 
 export function find(predicate, array) {
@@ -511,8 +504,7 @@ export function find(predicate, array) {
         return indexNotFound();
     }
     else {
-        const res = value_2(matchValue);
-        return res;
+        return value_2(matchValue);
     }
 }
 
@@ -551,8 +543,7 @@ export function pick(chooser, array) {
             else {
                 const matchValue = chooser(array[i]);
                 if (matchValue != null) {
-                    const res = value_2(matchValue);
-                    return res;
+                    return value_2(matchValue);
                 }
                 else {
                     i_mut = (i + 1);
@@ -695,14 +686,7 @@ export function tryFindIndexBack(predicate, array) {
 }
 
 export function choose(chooser, array, cons) {
-    const arr = array.filter(((x) => {
-        const option = chooser(x);
-        return option != null;
-    }));
-    return map((x_1) => {
-        const option_1 = chooser(x_1);
-        return value_2(option_1);
-    }, arr, cons);
+    return map((x_1) => value_2(chooser(x_1)), array.filter(((x) => (chooser(x) != null))), cons);
 }
 
 export function foldIndexed(folder, state, array) {
@@ -763,9 +747,7 @@ export function permute(f, array) {
         res[j] = x;
         checkFlags[j] = 1;
     }, array);
-    let isValid;
-    isValid = (checkFlags.every(((y) => (1 === y))));
-    if (!isValid) {
+    if (!(checkFlags.every(((y) => (1 === y))))) {
         throw (new Error("Not a valid permutation"));
     }
     return res;
@@ -897,9 +879,8 @@ export function chunkBySize(chunkSize, array) {
     else {
         const result = [];
         for (let x = 0; x <= ((~(~Math.ceil(array.length / chunkSize))) - 1); x++) {
-            const start = (x * chunkSize) | 0;
             let slice;
-            const start_1 = start | 0;
+            const start_1 = (x * chunkSize) | 0;
             slice = (array.slice(start_1, (start_1 + chunkSize)));
             const value = result.push(slice);
             void value;
@@ -1198,9 +1179,8 @@ export function splitInto(chunks, array) {
         const chunksWithExtraItem = (array.length % chunks_1) | 0;
         for (let i = 0; i <= (chunks_1 - 1); i++) {
             const chunkSize = ((i < chunksWithExtraItem) ? (minChunkSize + 1) : minChunkSize) | 0;
-            const start = ((i * minChunkSize) + min_1(comparePrimitives, chunksWithExtraItem, i)) | 0;
             let slice;
-            const start_1 = start | 0;
+            const start_1 = ((i * minChunkSize) + min_1(comparePrimitives, chunksWithExtraItem, i)) | 0;
             slice = (array.slice(start_1, (start_1 + chunkSize)));
             const value = result.push(slice);
             void value;
@@ -1210,16 +1190,14 @@ export function splitInto(chunks, array) {
 }
 
 export function transpose(arrays, cons) {
-    let value;
     const arrays_1 = Array.isArray(arrays) ? arrays : (Array.from(arrays));
     const len = arrays_1.length | 0;
     if (len === 0) {
         return new Array(0);
     }
     else {
-        const firstArray = arrays_1[0];
-        const lenInner = firstArray.length | 0;
-        if (value = (forAll((a) => (a.length === lenInner), arrays_1)), (!value)) {
+        const lenInner = arrays_1[0].length | 0;
+        if (!forAll((a) => (a.length === lenInner), arrays_1)) {
             differentLengths();
         }
         const result = new Array(lenInner);

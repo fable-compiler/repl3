@@ -675,13 +675,11 @@ export function BigInteger_DivRem_56F059C0(x, y) {
 }
 
 export function BigInteger_op_Division_56F059C0(x, y) {
-    const tuple = BigInteger_DivRem_56F059C0(x, y);
-    return tuple[0];
+    return BigInteger_DivRem_56F059C0(x, y)[0];
 }
 
 export function BigInteger_op_Modulus_56F059C0(x, y) {
-    const tuple = BigInteger_DivRem_56F059C0(x, y);
-    return tuple[1];
+    return BigInteger_DivRem_56F059C0(x, y)[1];
 }
 
 export function BigInteger_op_RightShift_62E082A2(x, y) {

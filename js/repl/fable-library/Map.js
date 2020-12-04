@@ -2,9 +2,9 @@ import { record_type, bool_type, list_type, option_type, class_type } from "./Re
 import { value as value_2, some } from "./Option.js";
 import { Record, List } from "./Types.js";
 import { fold as fold_1 } from "./List.js";
-import { structuralHash, partialApply, compare, equals, isArrayLike } from "./Util.js";
+import { structuralHash, compare, equals, isArrayLike } from "./Util.js";
 import { empty as empty_1, tryPick as tryPick_1, pick as pick_1, iterate as iterate_1, compareWith, toIterator, map as map_2, unfold, getEnumerator } from "./Seq.js";
-import { join, format } from "./String.js";
+import { format, join } from "./String.js";
 import { LanguagePrimitives_FastGenericComparer } from "./FSharp.Core.js";
 import { Dictionary_$ctor_6623D9B3 } from "./MutableMap.js";
 
@@ -111,12 +111,10 @@ export function MapTreeModule_mk(l, k, v, r) {
     }
     const m_2 = ((hl < hr) ? hr : hl) | 0;
     if (m_2 === 0) {
-        const arg0 = MapTreeLeaf$2_$ctor_5BDDA1(k, v);
-        return arg0;
+        return MapTreeLeaf$2_$ctor_5BDDA1(k, v);
     }
     else {
-        const arg0_1 = MapTreeNode$2_$ctor_499A11FD(k, v, l, r, m_2 + 1);
-        return arg0_1;
+        return MapTreeNode$2_$ctor_499A11FD(k, v, l, r, m_2 + 1);
     }
 }
 
@@ -194,29 +192,24 @@ export function MapTreeModule_add(comparer, k, v, m) {
                 return MapTreeModule_rebalance(MapTreeModule_add(comparer, k, v, MapTreeNode$2__get_Left(m2)), MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2), MapTreeNode$2__get_Right(m2));
             }
             else if (c === 0) {
-                const arg0_1 = MapTreeNode$2_$ctor_499A11FD(k, v, MapTreeNode$2__get_Left(m2), MapTreeNode$2__get_Right(m2), MapTreeNode$2__get_Height(m2));
-                return arg0_1;
+                return MapTreeNode$2_$ctor_499A11FD(k, v, MapTreeNode$2__get_Left(m2), MapTreeNode$2__get_Right(m2), MapTreeNode$2__get_Height(m2));
             }
             else {
                 return MapTreeModule_rebalance(MapTreeNode$2__get_Left(m2), MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2), MapTreeModule_add(comparer, k, v, MapTreeNode$2__get_Right(m2)));
             }
         }
         else if (c < 0) {
-            const arg0_2 = MapTreeNode$2_$ctor_499A11FD(k, v, MapTreeModule_empty(), m, 2);
-            return arg0_2;
+            return MapTreeNode$2_$ctor_499A11FD(k, v, MapTreeModule_empty(), m, 2);
         }
         else if (c === 0) {
-            const arg0_3 = MapTreeLeaf$2_$ctor_5BDDA1(k, v);
-            return arg0_3;
+            return MapTreeLeaf$2_$ctor_5BDDA1(k, v);
         }
         else {
-            const arg0_4 = MapTreeNode$2_$ctor_499A11FD(k, v, m, MapTreeModule_empty(), 2);
-            return arg0_4;
+            return MapTreeNode$2_$ctor_499A11FD(k, v, m, MapTreeModule_empty(), 2);
         }
     }
     else {
-        const arg0 = MapTreeLeaf$2_$ctor_5BDDA1(k, v);
-        return arg0;
+        return MapTreeLeaf$2_$ctor_5BDDA1(k, v);
     }
 }
 
@@ -253,8 +246,7 @@ export function MapTreeModule_find(comparer, k, m) {
         throw (new Error());
     }
     else {
-        const v = value_2(matchValue);
-        return v;
+        return value_2(matchValue);
     }
 }
 
@@ -275,25 +267,17 @@ export function MapTreeModule_partitionAux(comparer_mut, f_mut, m_mut, acc_0_mut
         if (m != null) {
             const m2 = m;
             if (m2 instanceof MapTreeNode$2) {
-                let acc_2;
-                const m_1 = MapTreeNode$2__get_Right(m2);
-                acc_2 = MapTreeModule_partitionAux(comparer, f, m_1, acc[0], acc[1]);
-                let acc_3;
-                const k = MapTreeLeaf$2__get_Key(m2);
-                const v = MapTreeLeaf$2__get_Value(m2);
-                acc_3 = MapTreeModule_partition1(comparer, f, k, v, acc_2[0], acc_2[1]);
-                const m_2 = MapTreeNode$2__get_Left(m2);
+                const acc_2 = MapTreeModule_partitionAux(comparer, f, MapTreeNode$2__get_Right(m2), acc[0], acc[1]);
+                const acc_3 = MapTreeModule_partition1(comparer, f, MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2), acc_2[0], acc_2[1]);
                 comparer_mut = comparer;
                 f_mut = f;
-                m_mut = m_2;
+                m_mut = MapTreeNode$2__get_Left(m2);
                 acc_0_mut = acc_3[0];
                 acc_1_mut = acc_3[1];
                 continue MapTreeModule_partitionAux;
             }
             else {
-                const k_1 = MapTreeLeaf$2__get_Key(m2);
-                const v_1 = MapTreeLeaf$2__get_Value(m2);
-                return MapTreeModule_partition1(comparer, f, k_1, v_1, acc[0], acc[1]);
+                return MapTreeModule_partition1(comparer, f, MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2), acc[0], acc[1]);
             }
         }
         else {
@@ -347,11 +331,10 @@ export function MapTreeModule_filter(comparer, f, m) {
 }
 
 export function MapTreeModule_spliceOutSuccessor(m) {
-    let m_1;
     if (m != null) {
         const m2 = m;
         if (m2 instanceof MapTreeNode$2) {
-            if (m_1 = MapTreeNode$2__get_Left(m2), m_1 == null) {
+            if (MapTreeNode$2__get_Left(m2) == null) {
                 return [MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2), MapTreeNode$2__get_Right(m2)];
             }
             else {
@@ -369,7 +352,6 @@ export function MapTreeModule_spliceOutSuccessor(m) {
 }
 
 export function MapTreeModule_remove(comparer, k, m) {
-    let m_1, m_2;
     if (m != null) {
         const m2 = m;
         const c = comparer.Compare(k, MapTreeLeaf$2__get_Key(m2)) | 0;
@@ -378,10 +360,10 @@ export function MapTreeModule_remove(comparer, k, m) {
                 return MapTreeModule_rebalance(MapTreeModule_remove(comparer, k, MapTreeNode$2__get_Left(m2)), MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2), MapTreeNode$2__get_Right(m2));
             }
             else if (c === 0) {
-                if (m_1 = MapTreeNode$2__get_Left(m2), m_1 == null) {
+                if (MapTreeNode$2__get_Left(m2) == null) {
                     return MapTreeNode$2__get_Right(m2);
                 }
-                else if (m_2 = MapTreeNode$2__get_Right(m2), m_2 == null) {
+                else if (MapTreeNode$2__get_Right(m2) == null) {
                     return MapTreeNode$2__get_Left(m2);
                 }
                 else {
@@ -406,7 +388,6 @@ export function MapTreeModule_remove(comparer, k, m) {
 }
 
 export function MapTreeModule_change(comparer, k, u, m) {
-    let m_1, m_2;
     if (m != null) {
         const m2 = m;
         if (m2 instanceof MapTreeNode$2) {
@@ -417,14 +398,12 @@ export function MapTreeModule_change(comparer, k, u, m) {
             else if (c === 0) {
                 const matchValue_1 = u(some(MapTreeLeaf$2__get_Value(m2)));
                 if (matchValue_1 != null) {
-                    const v_1 = value_2(matchValue_1);
-                    const arg0_1 = MapTreeNode$2_$ctor_499A11FD(k, v_1, MapTreeNode$2__get_Left(m2), MapTreeNode$2__get_Right(m2), MapTreeNode$2__get_Height(m2));
-                    return arg0_1;
+                    return MapTreeNode$2_$ctor_499A11FD(k, value_2(matchValue_1), MapTreeNode$2__get_Left(m2), MapTreeNode$2__get_Right(m2), MapTreeNode$2__get_Height(m2));
                 }
-                else if (m_1 = MapTreeNode$2__get_Left(m2), m_1 == null) {
+                else if (MapTreeNode$2__get_Left(m2) == null) {
                     return MapTreeNode$2__get_Right(m2);
                 }
-                else if (m_2 = MapTreeNode$2__get_Right(m2), m_2 == null) {
+                else if (MapTreeNode$2__get_Right(m2) == null) {
                     return MapTreeNode$2__get_Left(m2);
                 }
                 else {
@@ -441,9 +420,7 @@ export function MapTreeModule_change(comparer, k, u, m) {
             if (c_1 < 0) {
                 const matchValue_2 = u(void 0);
                 if (matchValue_2 != null) {
-                    const v_2 = value_2(matchValue_2);
-                    const arg0_2 = MapTreeNode$2_$ctor_499A11FD(k, v_2, MapTreeModule_empty(), m, 2);
-                    return arg0_2;
+                    return MapTreeNode$2_$ctor_499A11FD(k, value_2(matchValue_2), MapTreeModule_empty(), m, 2);
                 }
                 else {
                     return m;
@@ -452,9 +429,7 @@ export function MapTreeModule_change(comparer, k, u, m) {
             else if (c_1 === 0) {
                 const matchValue_3 = u(some(MapTreeLeaf$2__get_Value(m2)));
                 if (matchValue_3 != null) {
-                    const v_3 = value_2(matchValue_3);
-                    const arg0_3 = MapTreeLeaf$2_$ctor_5BDDA1(k, v_3);
-                    return arg0_3;
+                    return MapTreeLeaf$2_$ctor_5BDDA1(k, value_2(matchValue_3));
                 }
                 else {
                     return MapTreeModule_empty();
@@ -463,9 +438,7 @@ export function MapTreeModule_change(comparer, k, u, m) {
             else {
                 const matchValue_4 = u(void 0);
                 if (matchValue_4 != null) {
-                    const v_4 = value_2(matchValue_4);
-                    const arg0_4 = MapTreeNode$2_$ctor_499A11FD(k, v_4, m, MapTreeModule_empty(), 2);
-                    return arg0_4;
+                    return MapTreeNode$2_$ctor_499A11FD(k, value_2(matchValue_4), m, MapTreeModule_empty(), 2);
                 }
                 else {
                     return m;
@@ -476,9 +449,7 @@ export function MapTreeModule_change(comparer, k, u, m) {
     else {
         const matchValue = u(void 0);
         if (matchValue != null) {
-            const v = value_2(matchValue);
-            const arg0 = MapTreeLeaf$2_$ctor_5BDDA1(k, v);
-            return arg0;
+            return MapTreeLeaf$2_$ctor_5BDDA1(k, value_2(matchValue));
         }
         else {
             return m;
@@ -653,12 +624,10 @@ export function MapTreeModule_map(f, m) {
             const l2 = MapTreeModule_map(f, MapTreeNode$2__get_Left(m2));
             const v2 = f(MapTreeLeaf$2__get_Value(m2));
             const r2 = MapTreeModule_map(f, MapTreeNode$2__get_Right(m2));
-            const arg0 = MapTreeNode$2_$ctor_499A11FD(MapTreeLeaf$2__get_Key(m2), v2, l2, r2, MapTreeNode$2__get_Height(m2));
-            return arg0;
+            return MapTreeNode$2_$ctor_499A11FD(MapTreeLeaf$2__get_Key(m2), v2, l2, r2, MapTreeNode$2__get_Height(m2));
         }
         else {
-            const arg0_1 = MapTreeLeaf$2_$ctor_5BDDA1(MapTreeLeaf$2__get_Key(m2), f(MapTreeLeaf$2__get_Value(m2)));
-            return arg0_1;
+            return MapTreeLeaf$2_$ctor_5BDDA1(MapTreeLeaf$2__get_Key(m2), f(MapTreeLeaf$2__get_Value(m2)));
         }
     }
     else {
@@ -673,12 +642,10 @@ export function MapTreeModule_mapiOpt(f, m) {
             const l2 = MapTreeModule_mapiOpt(f, MapTreeNode$2__get_Left(m2));
             const v2 = f(MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2));
             const r2 = MapTreeModule_mapiOpt(f, MapTreeNode$2__get_Right(m2));
-            const arg0 = MapTreeNode$2_$ctor_499A11FD(MapTreeLeaf$2__get_Key(m2), v2, l2, r2, MapTreeNode$2__get_Height(m2));
-            return arg0;
+            return MapTreeNode$2_$ctor_499A11FD(MapTreeLeaf$2__get_Key(m2), v2, l2, r2, MapTreeNode$2__get_Height(m2));
         }
         else {
-            const arg0_1 = MapTreeLeaf$2_$ctor_5BDDA1(MapTreeLeaf$2__get_Key(m2), f(MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2)));
-            return arg0_1;
+            return MapTreeLeaf$2_$ctor_5BDDA1(MapTreeLeaf$2__get_Key(m2), f(MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2)));
         }
     }
     else {
@@ -726,10 +693,8 @@ export function MapTreeModule_foldOpt(f_mut, x_mut, m_mut) {
         if (m != null) {
             const m2 = m;
             if (m2 instanceof MapTreeNode$2) {
-                const x_1 = MapTreeModule_foldOpt(f, x, MapTreeNode$2__get_Left(m2));
-                const x_2 = f(x_1, MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2));
                 f_mut = f;
-                x_mut = x_2;
+                x_mut = f(MapTreeModule_foldOpt(f, x, MapTreeNode$2__get_Left(m2)), MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2));
                 m_mut = MapTreeNode$2__get_Right(m2);
                 continue MapTreeModule_foldOpt;
             }
@@ -749,26 +714,38 @@ export function MapTreeModule_fold(f, x, m) {
 }
 
 export function MapTreeModule_foldSectionOpt(comparer, lo, hi, f, m, x) {
-    const foldFromTo = (f_1, m_1, x_1) => {
-        if (m_1 != null) {
-            const m2 = m_1;
-            if (m2 instanceof MapTreeNode$2) {
-                const cLoKey = comparer.Compare(lo, MapTreeLeaf$2__get_Key(m2)) | 0;
-                const cKeyHi = comparer.Compare(MapTreeLeaf$2__get_Key(m2), hi) | 0;
-                const x_2 = (cLoKey < 0) ? foldFromTo(f_1, MapTreeNode$2__get_Left(m2), x_1) : x_1;
-                const x_3 = ((cLoKey <= 0) ? (cKeyHi <= 0) : false) ? f_1(MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2), x_2) : x_2;
-                const x_4 = (cKeyHi < 0) ? foldFromTo(f_1, MapTreeNode$2__get_Right(m2), x_3) : x_3;
-                return x_4;
+    const foldFromTo = (f_1_mut, m_1_mut, x_1_mut) => {
+        foldFromTo:
+        while (true) {
+            const f_1 = f_1_mut, m_1 = m_1_mut, x_1 = x_1_mut;
+            if (m_1 != null) {
+                const m2 = m_1;
+                if (m2 instanceof MapTreeNode$2) {
+                    const cLoKey = comparer.Compare(lo, MapTreeLeaf$2__get_Key(m2)) | 0;
+                    const cKeyHi = comparer.Compare(MapTreeLeaf$2__get_Key(m2), hi) | 0;
+                    const x_2 = (cLoKey < 0) ? foldFromTo(f_1, MapTreeNode$2__get_Left(m2), x_1) : x_1;
+                    const x_3 = ((cLoKey <= 0) ? (cKeyHi <= 0) : false) ? f_1(MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2), x_2) : x_2;
+                    if (cKeyHi < 0) {
+                        f_1_mut = f_1;
+                        m_1_mut = MapTreeNode$2__get_Right(m2);
+                        x_1_mut = x_3;
+                        continue foldFromTo;
+                    }
+                    else {
+                        return x_3;
+                    }
+                }
+                else if ((comparer.Compare(lo, MapTreeLeaf$2__get_Key(m2)) <= 0) ? (comparer.Compare(MapTreeLeaf$2__get_Key(m2), hi) <= 0) : false) {
+                    return f_1(MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2), x_1);
+                }
+                else {
+                    return x_1;
+                }
             }
             else {
-                const cLoKey_1 = comparer.Compare(lo, MapTreeLeaf$2__get_Key(m2)) | 0;
-                const cKeyHi_1 = comparer.Compare(MapTreeLeaf$2__get_Key(m2), hi) | 0;
-                const x_5 = ((cLoKey_1 <= 0) ? (cKeyHi_1 <= 0) : false) ? f_1(MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2), x_1) : x_1;
-                return x_5;
+                return x_1;
             }
-        }
-        else {
-            return x_1;
+            break;
         }
     };
     if (comparer.Compare(lo, hi) === 1) {
@@ -809,9 +786,7 @@ export function MapTreeModule_toList(m) {
 }
 
 export function MapTreeModule_toArray(m) {
-    let list;
-    list = MapTreeModule_toList(m);
-    return Array.from(list);
+    return Array.from(MapTreeModule_toList(m));
 }
 
 export function MapTreeModule_ofList(comparer, l) {
@@ -884,7 +859,6 @@ export function MapTreeModule_MapIterator$2$reflection(gen0, gen1) {
 }
 
 export function MapTreeModule_collapseLHS(stack_mut) {
-    let arg0;
     MapTreeModule_collapseLHS:
     while (true) {
         const stack = stack_mut;
@@ -894,7 +868,7 @@ export function MapTreeModule_collapseLHS(stack_mut) {
             if (m != null) {
                 const m2 = m;
                 if (m2 instanceof MapTreeNode$2) {
-                    stack_mut = (new List(MapTreeNode$2__get_Left(m2), new List((arg0 = MapTreeLeaf$2_$ctor_5BDDA1(MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2)), (arg0)), new List(MapTreeNode$2__get_Right(m2), rest))));
+                    stack_mut = (new List(MapTreeNode$2__get_Left(m2), new List(MapTreeLeaf$2_$ctor_5BDDA1(MapTreeLeaf$2__get_Key(m2), MapTreeLeaf$2__get_Value(m2)), new List(MapTreeNode$2__get_Right(m2), rest))));
                     continue MapTreeModule_collapseLHS;
                 }
                 else {
@@ -1000,7 +974,6 @@ export function MapTreeModule_mkIEnumerator(m) {
 }
 
 export function MapTreeModule_toSeq(s) {
-    const en = MapTreeModule_mkIEnumerator(s);
     return unfold((en_1) => {
         if (en_1["System.Collections.IEnumerator.MoveNext"]()) {
             return [en_1["System.Collections.Generic.IEnumerator`1.get_Current"](), en_1];
@@ -1008,7 +981,7 @@ export function MapTreeModule_toSeq(s) {
         else {
             return void 0;
         }
-    }, en);
+    }, MapTreeModule_mkIEnumerator(s));
 }
 
 export class FSharpMap {
@@ -1029,8 +1002,7 @@ export class FSharpMap {
                 try {
                     const loop = () => {
                         const m1 = e1["System.Collections.IEnumerator.MoveNext"]();
-                        const m2 = e2["System.Collections.IEnumerator.MoveNext"]();
-                        if (m1 === m2) {
+                        if (m1 === e2["System.Collections.IEnumerator.MoveNext"]()) {
                             if (!m1) {
                                 return true;
                             }
@@ -1065,11 +1037,7 @@ export class FSharpMap {
     }
     toString() {
         const this$ = this;
-        let str;
-        let strings;
-        strings = map_2((kv) => format("({0}, {1})", kv[0], kv[1]), this$);
-        str = join("; ", strings);
-        return ("map [" + str) + "]";
+        return ("map [" + join("; ", map_2((kv) => format("({0}, {1})", kv[0], kv[1]), this$))) + "]";
     }
     get [Symbol.toStringTag]() {
         return "FSharpMap";
@@ -1166,9 +1134,7 @@ export class FSharpMap {
     forEach(f, thisArg) {
         const m = this;
         iterate_1((p) => {
-            const clo1 = partialApply(2, f, [p[1]]);
-            const clo2 = clo1(p[0]);
-            clo2(m);
+            f(p[1], p[0], m);
         }, m);
     }
 }
@@ -1182,8 +1148,7 @@ export function FSharpMap_$ctor(comparer, tree) {
 }
 
 (() => {
-    const comparer = LanguagePrimitives_FastGenericComparer();
-    FSharpMap.empty = FSharpMap_$ctor(comparer, MapTreeModule_empty());
+    FSharpMap.empty = FSharpMap_$ctor(LanguagePrimitives_FastGenericComparer(), MapTreeModule_empty());
 })();
 
 export function FSharpMap_get_Empty() {
@@ -1302,8 +1267,7 @@ export function FSharpMap__ComputeHashCode(this$) {
     const enumerator = getEnumerator(this$);
     try {
         while (enumerator["System.Collections.IEnumerator.MoveNext"]()) {
-            const forLoopVar = enumerator["System.Collections.Generic.IEnumerator`1.get_Current"]();
-            const activePatternResult4281 = forLoopVar;
+            const activePatternResult4281 = enumerator["System.Collections.Generic.IEnumerator`1.get_Current"]();
             res = combineHash(res, structuralHash(activePatternResult4281[0]));
             res = combineHash(res, structuralHash(activePatternResult4281[1]));
         }
@@ -1353,8 +1317,7 @@ export function tryPick(chooser, table) {
 export function pick(chooser, table) {
     const matchValue = tryPick(chooser, table);
     if (matchValue != null) {
-        const res = value_2(matchValue);
-        return res;
+        return value_2(matchValue);
     }
     else {
         throw (new Error());
@@ -1443,8 +1406,7 @@ export function empty() {
 }
 
 export function createMutable(source, comparer) {
-    const map_1 = Dictionary_$ctor_6623D9B3(source, comparer);
-    return map_1;
+    return Dictionary_$ctor_6623D9B3(source, comparer);
 }
 
 export function groupBy(projection, xs, comparer) {
@@ -1466,8 +1428,7 @@ export function groupBy(projection, xs, comparer) {
     finally {
         enumerator.Dispose();
     }
-    const source = dict.entries();
-    return map_2((tupledArg) => [tupledArg[0], tupledArg[1]], source);
+    return map_2((tupledArg) => [tupledArg[0], tupledArg[1]], dict.entries());
 }
 
 export function countBy(projection, xs, comparer) {
@@ -1475,8 +1436,7 @@ export function countBy(projection, xs, comparer) {
     const enumerator = getEnumerator(xs);
     try {
         while (enumerator["System.Collections.IEnumerator.MoveNext"]()) {
-            const value = enumerator["System.Collections.Generic.IEnumerator`1.get_Current"]();
-            const key = projection(value);
+            const key = projection(enumerator["System.Collections.Generic.IEnumerator`1.get_Current"]());
             const value_1 = dict.has(key) ? dict.set(key, dict.get(key) + 1) : dict.set(key, 1);
             void value_1;
         }

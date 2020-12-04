@@ -1,5 +1,5 @@
 import { sumBy, iterate, map, iterateIndexed, toIterator, concat, getEnumerator } from "./Seq.js";
-import { partialApply, equals } from "./Util.js";
+import { equals } from "./Util.js";
 import { FSharpRef } from "./Types.js";
 import { class_type } from "./Reflection.js";
 import { getItemFromDict, tryGetValue } from "./MapUtil.js";
@@ -32,8 +32,7 @@ export class Dictionary {
     }
     GetEnumerator() {
         const this$ = this;
-        const elems = concat(this$.hashMap.values());
-        return getEnumerator(elems);
+        return getEnumerator(concat(this$.hashMap.values()));
     }
     [Symbol.iterator]() {
         return toIterator(this.GetEnumerator());
@@ -47,12 +46,11 @@ export class Dictionary {
         Dictionary__Clear(this$);
     }
     ["System.Collections.Generic.ICollection`1.Contains2B595"](item) {
-        let p;
         const this$ = this;
         const matchValue = Dictionary__TryFind_2B595(this$, item[0]);
         let pattern_matching_result;
         if (matchValue != null) {
-            if (p = matchValue, equals(p[1], item[1])) {
+            if (equals(matchValue[1], item[1])) {
                 pattern_matching_result = 0;
             }
             else {
@@ -88,8 +86,7 @@ export class Dictionary {
         const this$ = this;
         const matchValue = Dictionary__TryFind_2B595(this$, item[0]);
         if (matchValue != null) {
-            const pair = matchValue;
-            if (equals(pair[1], item[1])) {
+            if (equals(matchValue[1], item[1])) {
                 const value = Dictionary__Remove_2B595(this$, item[0]);
                 void value;
             }
@@ -139,9 +136,7 @@ export class Dictionary {
     forEach(f, thisArg) {
         const this$ = this;
         iterate((p) => {
-            const clo1 = partialApply(2, f, [p[1]]);
-            const clo2 = clo1(p[0]);
-            clo2(this$);
+            f(p[1], p[0], this$);
         }, this$);
     }
 }
@@ -202,18 +197,16 @@ export function Dictionary__Clear(this$) {
 }
 
 export function Dictionary__get_Count(this$) {
-    const source = this$.hashMap.values();
-    return sumBy((pairs) => pairs.length, source, {
+    return sumBy((pairs) => pairs.length, this$.hashMap.values(), {
         GetZero: () => 0,
         Add: (x, y) => (x + y),
-    }) | 0;
+    });
 }
 
 export function Dictionary__get_Item_2B595(this$, k) {
     const matchValue = Dictionary__TryFind_2B595(this$, k);
     if (matchValue != null) {
-        const pair = matchValue;
-        return pair[1];
+        return matchValue[1];
     }
     else {
         throw (new Error("The item was not found in collection"));

@@ -178,13 +178,11 @@ export function toSeq(xs) {
 }
 
 export function ofSeq(xs) {
-    const xs_1 = fold_1((acc, x) => (new List_1(x, acc)), new List_1(), xs);
-    return reverse(xs_1);
+    return reverse(fold_1((acc, x) => (new List_1(x, acc)), new List_1(), xs));
 }
 
 export function concat(lists) {
-    const xs_1 = fold_1((state, xs) => fold((acc, x) => (new List_1(x, acc)), state, xs), new List_1(), lists);
-    return reverse(xs_1);
+    return reverse(fold_1((state, xs) => fold((acc, x) => (new List_1(x, acc)), state, xs), new List_1(), lists));
 }
 
 export function foldIndexed2Aux(f_mut, i_mut, acc_mut, bs_mut, cs_mut) {
@@ -250,10 +248,8 @@ export function unfold(f, state) {
             const acc = acc_mut, state_1 = state_1_mut;
             const matchValue = f(state_1);
             if (matchValue != null) {
-                const x = matchValue[0];
-                const state_2 = matchValue[1];
-                acc_mut = (new List_1(x, acc));
-                state_1_mut = state_2;
+                acc_mut = (new List_1(matchValue[0], acc));
+                state_1_mut = matchValue[1];
                 continue unfoldInner;
             }
             else {
@@ -331,13 +327,11 @@ export function fold3(f, state, xs, ys, zs) {
 }
 
 export function scan(f, state, xs) {
-    const xs_1 = scan_1(f, state, xs);
-    return ofSeq(xs_1);
+    return ofSeq(scan_1(f, state, xs));
 }
 
 export function scanBack(f, xs, state) {
-    const xs_1 = scanBack_1(f, xs, state);
-    return ofSeq(xs_1);
+    return ofSeq(scanBack_1(f, xs, state));
 }
 
 export function length(xs) {
@@ -349,18 +343,15 @@ export function append(xs, ys) {
 }
 
 export function collect(f, xs) {
-    const xs_1 = collect_1(f, xs);
-    return ofSeq(xs_1);
+    return ofSeq(collect_1(f, xs));
 }
 
 export function map(f, xs) {
-    const xs_1 = fold((acc, x) => (new List_1(f(x), acc)), new List_1(), xs);
-    return reverse(xs_1);
+    return reverse(fold((acc, x) => (new List_1(f(x), acc)), new List_1(), xs));
 }
 
 export function mapIndexed(f, xs) {
-    const xs_1 = foldIndexed((i, acc, x) => (new List_1(f(i, x), acc)), new List_1(), xs);
-    return reverse(xs_1);
+    return reverse(foldIndexed((i, acc, x) => (new List_1(f(i, x), acc)), new List_1(), xs));
 }
 
 export function indexed(xs) {
@@ -368,23 +359,19 @@ export function indexed(xs) {
 }
 
 export function map2(f, xs, ys) {
-    const xs_1 = fold2((acc, x, y) => (new List_1(f(x, y), acc)), new List_1(), xs, ys);
-    return reverse(xs_1);
+    return reverse(fold2((acc, x, y) => (new List_1(f(x, y), acc)), new List_1(), xs, ys));
 }
 
 export function mapIndexed2(f, xs, ys) {
-    const xs_1 = foldIndexed2((i, acc, x, y) => (new List_1(f(i, x, y), acc)), new List_1(), xs, ys);
-    return reverse(xs_1);
+    return reverse(foldIndexed2((i, acc, x, y) => (new List_1(f(i, x, y), acc)), new List_1(), xs, ys));
 }
 
 export function map3(f, xs, ys, zs) {
-    const xs_1 = fold3((acc, x, y, z) => (new List_1(f(x, y, z), acc)), new List_1(), xs, ys, zs);
-    return reverse(xs_1);
+    return reverse(fold3((acc, x, y, z) => (new List_1(f(x, y, z), acc)), new List_1(), xs, ys, zs));
 }
 
 export function mapIndexed3(f, xs, ys, zs) {
-    const xs_1 = foldIndexed3((i, acc, x, y, z) => (new List_1(f(i, x, y, z), acc)), new List_1(), xs, ys, zs);
-    return reverse(xs_1);
+    return reverse(foldIndexed3((i, acc, x, y, z) => (new List_1(f(i, x, y, z), acc)), new List_1(), xs, ys, zs));
 }
 
 export function mapFold(f, s, xs) {
@@ -478,8 +465,7 @@ export function tryPick(f, xs) {
 export function pick(f, xs) {
     const matchValue = tryPick(f, xs);
     if (matchValue != null) {
-        const x = value_1(matchValue);
-        return x;
+        return value_1(matchValue);
     }
     else {
         throw (new Error("List did not contain any matching elements"));
@@ -497,8 +483,7 @@ export function tryFind(f, xs) {
 export function findIndexed(f, xs) {
     const matchValue = tryFindIndexed(f, xs);
     if (matchValue != null) {
-        const x = value_1(matchValue);
-        return x;
+        return value_1(matchValue);
     }
     else {
         throw (new Error("List did not contain any matching elements"));
@@ -510,15 +495,11 @@ export function find(f, xs) {
 }
 
 export function findBack(f, xs) {
-    let xs_2;
-    xs_2 = reverse(xs);
-    return find(f, xs_2);
+    return find(f, reverse(xs));
 }
 
 export function tryFindBack(f, xs) {
-    let xs_2;
-    xs_2 = reverse(xs);
-    return tryFind(f, xs_2);
+    return tryFind(f, reverse(xs));
 }
 
 export function tryFindIndex(f, xs) {
@@ -526,15 +507,13 @@ export function tryFindIndex(f, xs) {
 }
 
 export function tryFindIndexBack(f, xs) {
-    const array = Array.from(xs);
-    return tryFindIndexBack_1(f, array);
+    return tryFindIndexBack_1(f, Array.from(xs));
 }
 
 export function findIndex(f, xs) {
     const matchValue = tryFindIndex(f, xs);
     if (matchValue != null) {
-        const x = matchValue | 0;
-        return x | 0;
+        return matchValue | 0;
     }
     else {
         throw (new Error("List did not contain any matching elements"));
@@ -542,8 +521,7 @@ export function findIndex(f, xs) {
 }
 
 export function findIndexBack(f, xs) {
-    const array = Array.from(xs);
-    return findIndexBack_1(f, array) | 0;
+    return findIndexBack_1(f, Array.from(xs));
 }
 
 export function item(n, xs) {
@@ -555,8 +533,7 @@ export function tryItem(n, xs) {
 }
 
 export function filter(f, xs) {
-    const xs_1 = fold((acc, x) => (f(x) ? (new List_1(x, acc)) : acc), new List_1(), xs);
-    return reverse(xs_1);
+    return reverse(fold((acc, x) => (f(x) ? (new List_1(x, acc)) : acc), new List_1(), xs));
 }
 
 export function partition(f, xs) {
@@ -568,17 +545,10 @@ export function partition(f, xs) {
 }
 
 export function choose(f, xs) {
-    const xs_1 = fold((acc, x) => {
+    return reverse(fold((acc, x) => {
         const matchValue = f(x);
-        if (matchValue == null) {
-            return acc;
-        }
-        else {
-            const y = value_1(matchValue);
-            return new List_1(y, acc);
-        }
-    }, new List_1(), xs);
-    return reverse(xs_1);
+        return (matchValue == null) ? acc : (new List_1(value_1(matchValue), acc));
+    }, new List_1(), xs));
 }
 
 export function contains(value, list, eq) {
@@ -737,44 +707,28 @@ export function zip3(xs, ys, zs) {
 }
 
 export function sort(xs, comparer) {
-    let xs_2;
-    const xs_1 = Array.from(xs);
-    xs_1.sort(((x, y) => comparer.Compare(x, y)));
-    xs_2 = xs_1;
-    return ofArray(xs_2);
+    let xs_1;
+    return ofArray((xs_1 = Array.from(xs), (xs_1.sort(((x, y) => comparer.Compare(x, y))), xs_1)));
 }
 
 export function sortBy(projection, xs, comparer) {
-    let xs_2;
-    const xs_1 = Array.from(xs);
-    xs_1.sort(((x, y) => comparer.Compare(projection(x), projection(y))));
-    xs_2 = xs_1;
-    return ofArray(xs_2);
+    let xs_1;
+    return ofArray((xs_1 = Array.from(xs), (xs_1.sort(((x, y) => comparer.Compare(projection(x), projection(y)))), xs_1)));
 }
 
 export function sortDescending(xs, comparer) {
-    let xs_2;
-    const xs_1 = Array.from(xs);
-    xs_1.sort(((x, y) => (comparer.Compare(x, y) * -1)));
-    xs_2 = xs_1;
-    return ofArray(xs_2);
+    let xs_1;
+    return ofArray((xs_1 = Array.from(xs), (xs_1.sort(((x, y) => (comparer.Compare(x, y) * -1))), xs_1)));
 }
 
 export function sortByDescending(projection, xs, comparer) {
-    let xs_2;
-    const xs_1 = Array.from(xs);
-    xs_1.sort(((x, y) => (comparer.Compare(projection(x), projection(y)) * -1)));
-    xs_2 = xs_1;
-    return ofArray(xs_2);
+    let xs_1;
+    return ofArray((xs_1 = Array.from(xs), (xs_1.sort(((x, y) => (comparer.Compare(projection(x), projection(y)) * -1))), xs_1)));
 }
 
 export function sortWith(comparer, xs) {
-    let xs_2;
-    const comparer_1 = comparer;
-    const xs_1 = Array.from(xs);
-    xs_1.sort(comparer_1);
-    xs_2 = xs_1;
-    return ofArray(xs_2);
+    let comparer_1, xs_1;
+    return ofArray((comparer_1 = comparer, (xs_1 = Array.from(xs), (xs_1.sort(comparer_1), xs_1))));
 }
 
 export function sum(xs, adder) {
@@ -802,31 +756,19 @@ export function min(xs, comparer) {
 }
 
 export function average(xs, averager) {
-    const total = fold((acc, x) => averager.Add(acc, x), averager.GetZero(), xs);
-    return averager.DivideByInt(total, length(xs));
+    return averager.DivideByInt(fold((acc, x) => averager.Add(acc, x), averager.GetZero(), xs), length(xs));
 }
 
 export function averageBy(f, xs, averager) {
-    const total = fold((acc, x) => averager.Add(acc, f(x)), averager.GetZero(), xs);
-    return averager.DivideByInt(total, length(xs));
+    return averager.DivideByInt(fold((acc, x) => averager.Add(acc, f(x)), averager.GetZero(), xs), length(xs));
 }
 
 export function permute(f, xs) {
-    let xs_1;
-    let array;
-    array = Array.from(xs);
-    xs_1 = permute_1(f, array);
-    return ofArray(xs_1);
+    return ofArray(permute_1(f, Array.from(xs)));
 }
 
 export function chunkBySize(chunkSize, xs) {
-    let xs_3;
-    let xs_1;
-    let array;
-    array = Array.from(xs);
-    xs_1 = chunkBySize_1(chunkSize, array);
-    xs_3 = ofArray(xs_1);
-    return map(ofArray, xs_3);
+    return map(ofArray, ofArray(chunkBySize_1(chunkSize, Array.from(xs))));
 }
 
 export function skip(i, xs) {
@@ -977,8 +919,7 @@ export function take(i, xs) {
                 return new List_1(matchValue[1].head, new List_1());
             }
             case 2: {
-                const tuple = takeSplitAux(true, i_3, new List_1(), xs_1);
-                return tuple[0];
+                return takeSplitAux(true, i_3, new List_1(), xs_1)[0];
             }
         }
     }
@@ -1039,8 +980,7 @@ export function truncate(i, xs) {
                 return new List_1(matchValue[1].head, new List_1());
             }
             case 2: {
-                const tuple = takeSplitAux(false, i_3, new List_1(), xs_1);
-                return tuple[0];
+                return takeSplitAux(false, i_3, new List_1(), xs_1)[0];
             }
         }
     }
@@ -1100,8 +1040,7 @@ export function getSlice(lower, upper, xs) {
     }
     else {
         let lastIndex = -1;
-        let res;
-        res = foldIndexed((i, acc, x) => {
+        const res = foldIndexed((i, acc, x) => {
             lastIndex = i;
             if ((lower_1 <= i) ? ((!hasUpper) ? true : (i <= upper)) : false) {
                 return new List_1(x, acc);
@@ -1119,10 +1058,7 @@ export function getSlice(lower, upper, xs) {
 
 export function distinctBy(projection, xs, eq) {
     const hashSet = new HashSet([], eq);
-    return filter((arg) => {
-        const arg00 = projection(arg);
-        return addToSet(arg00, hashSet);
-    }, xs);
+    return filter((arg) => addToSet(projection(arg), hashSet), xs);
 }
 
 export function distinct(xs, eq) {
@@ -1162,10 +1098,9 @@ export function groupBy(projection, xs, eq) {
         }
     }, xs);
     let result = new List_1();
-    const xs_2 = keys;
     iterate((key_1) => {
         result = (new List_1([key_1, reverse(getItemFromDict(dict, key_1))], result));
-    }, xs_2);
+    }, keys);
     return result;
 }
 
@@ -1188,10 +1123,9 @@ export function countBy(projection, xs, eq) {
         }
     }, xs);
     let result = new List_1();
-    const xs_2 = keys;
     iterate((key_1) => {
         result = (new List_1([key_1, getItemFromDict(dict, key_1)], result));
-    }, xs_2);
+    }, keys);
     return result;
 }
 
@@ -1200,8 +1134,7 @@ export function where(predicate, source) {
 }
 
 export function pairwise(source) {
-    const xs = pairwise_1(source);
-    return ofSeq(xs);
+    return ofSeq(pairwise_1(source));
 }
 
 export function windowed(windowSize, source) {
@@ -1216,20 +1149,10 @@ export function windowed(windowSize, source) {
 }
 
 export function splitInto(chunks, source) {
-    let xs_2;
-    let xs;
-    let array;
-    array = Array.from(source);
-    xs = splitInto_1(chunks, array);
-    xs_2 = ofArray(xs);
-    return map(ofArray, xs_2);
+    return map(ofArray, ofArray(splitInto_1(chunks, Array.from(source))));
 }
 
 export function transpose(lists) {
-    let xs_1;
-    let source_1;
-    source_1 = transpose_1(lists);
-    xs_1 = map_1(ofSeq, source_1);
-    return ofSeq(xs_1);
+    return ofSeq(map_1(ofSeq, transpose_1(lists)));
 }
 
